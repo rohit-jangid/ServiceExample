@@ -34,18 +34,18 @@ public class MainActivity extends AppCompatActivity {
         notificationChannel();
 
         start.setOnClickListener(v -> {
-//            Intent i = new Intent(this, ForegroundService.class);
-//            i.putExtra("message", editText.getText().toString().trim());
-//            startService(i);
-            Intent i = new Intent(this, IService.class);
+            Intent i = new Intent(this, ForegroundService.class);
             i.putExtra("message", editText.getText().toString().trim());
+//            startService(i);
+//            Intent i = new Intent(this, IService.class);
+//            i.putExtra("message", editText.getText().toString().trim());
 //            ContextCompat.startForegroundService(this,i);
             startService(i);
         });
 
         stop.setOnClickListener(v -> {
-//            Intent i = new Intent(this, ForegroundService.class);
-            Intent i = new Intent(this, IService.class);
+            Intent i = new Intent(this, ForegroundService.class);
+//            Intent i = new Intent(this, IService.class);
             stopService(i);
         });
 
@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent i = new Intent(this, IService.class);
+//        Intent i = new Intent(this, IService.class);
+        Intent i = new Intent(this, ForegroundService.class);
         stopService(i);
         unregisterReceiver(taskCompletionReceiver);
     }

@@ -1,9 +1,12 @@
 package com.rohfl.serviceexample.foregroundservice;
 
 import static com.rohfl.serviceexample.MainActivity.CHANNEL_ID;
+
+import com.rohfl.serviceexample.MainActivity;
 import com.rohfl.serviceexample.R;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -34,8 +37,14 @@ public class ForegroundService extends Service {
 
         String message = intent.getStringExtra("message");
 
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
+
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Playing Music")
+                .setContentIntent(pendingIntent)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .build();
