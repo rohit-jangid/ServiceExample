@@ -25,8 +25,8 @@ public class ForegroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.stop();
-        mediaPlayer.release();
+//        mediaPlayer.stop();
+//        mediaPlayer.release();
     }
 
     @Override
@@ -40,11 +40,11 @@ public class ForegroundService extends Service {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .build();
 
-        mediaPlayer = MediaPlayer.create(this,
-                Settings.System.DEFAULT_RINGTONE_URI);
-
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+//        mediaPlayer = MediaPlayer.create(this,
+//                Settings.System.DEFAULT_RINGTONE_URI);
+//
+//        mediaPlayer.setLooping(true);
+//        mediaPlayer.start();
 
         startForeground(1, notification);
 

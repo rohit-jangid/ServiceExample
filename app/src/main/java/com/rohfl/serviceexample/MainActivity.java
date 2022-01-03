@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.rohfl.serviceexample.foregroundservice.ForegroundService;
+import com.rohfl.serviceexample.intentservice.IService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,16 +31,27 @@ public class MainActivity extends AppCompatActivity {
         notificationChannel();
 
         start.setOnClickListener(v -> {
-            Intent i = new Intent(this, ForegroundService.class);
+//            Intent i = new Intent(this, ForegroundService.class);
+//            i.putExtra("message", editText.getText().toString().trim());
+//            startService(i);
+            Intent i = new Intent(this, IService.class);
             i.putExtra("message", editText.getText().toString().trim());
-            startService(i);
+            ContextCompat.startForegroundService(this,i);
         });
 
         stop.setOnClickListener(v -> {
-            Intent i = new Intent(this, ForegroundService.class);
+//            Intent i = new Intent(this, ForegroundService.class);
+            Intent i = new Intent(this, IService.class);
             stopService(i);
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent i = new Intent(this, IService.class);
+        stopService(i);
     }
 
     private void notificationChannel() {

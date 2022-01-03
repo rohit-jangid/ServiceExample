@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <service android:name=".foregroundservice.ForegroundService"/>
+        <service android:name=".intentservice.IService"/>
     </application>
 
 </manifest>
