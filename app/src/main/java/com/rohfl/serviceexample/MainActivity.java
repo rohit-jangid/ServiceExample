@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,10 +15,12 @@ import android.widget.EditText;
 
 import com.rohfl.serviceexample.foregroundservice.ForegroundService;
 import com.rohfl.serviceexample.intentservice.IService;
+import com.rohfl.serviceexample.receiver.TaskCompletionReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String CHANNEL_ID = "channelid";
+    TaskCompletionReceiver taskCompletionReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 //            startService(i);
             Intent i = new Intent(this, IService.class);
             i.putExtra("message", editText.getText().toString().trim());
-            ContextCompat.startForegroundService(this,i);
+//            ContextCompat.startForegroundService(this,i);
+            startService(i);
         });
 
         stop.setOnClickListener(v -> {
@@ -45,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
             stopService(i);
         });
 
+        IntentFilter filter = new IntentFilter(TaskCompletionReceiver.PROCESS_RESPONSE);
+        taskCompletionReceiver = new TaskCompletionReceiver();
+        registerReceiver(taskCompletionReceiver, filter);
+
     }
 
     @Override
@@ -52,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Intent i = new Intent(this, IService.class);
         stopService(i);
+        unregisterReceiver(taskCompletionReceiver);
     }
 
     private void notificationChannel() {
